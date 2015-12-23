@@ -13,4 +13,5 @@
 服务器B定时调用RecordDemo.php，服务器B的IP地址一旦发生变化，就会被更新到DNS纪录里了。重复的IP地址会被忽略掉，使用session保存重复的IP地址
 
 下面是Cron配置
+
 */1 * * * * curl -b cookies.txt -c cookies.txt http://AAAAA.com/cloudxns/demo/RecordDemo.php
