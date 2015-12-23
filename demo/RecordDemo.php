@@ -1,18 +1,29 @@
 <?php
-
+session_start();
 /**
  * 解析记录的接口逻辑处理的Demo
- * 
+ *
  * @author CLoudXNS <support@cloudxns.net>
  * @link https://www.cloudxns.net/
  * @copyright Copyright (c) 2015 Cloudxns.
  */
 require_once 'Config.inc.php';
 
+
+//这里稍微做了一下加密，防止别人随便请求
+$encrypt = $_GET['encrypt'];
+
+if(strcmp($encrypt, 'YTZD923oMefdqOYq23vskdfPUadLP4paow4') != 0)
+{
+    echo 'Error Encrypt Code!';
+    return;
+}
+
+
 /**
  * 获取请求方的外网IP地址
  */
- 
+
 function getIPAddress()
 {
     $IPaddress='';
@@ -35,22 +46,23 @@ function getIPAddress()
     }
     return $IPaddress;
 }
-
 $clientIP = getIPaddress();
 
 
-//这里稍微做了一下加密，防止别人随便请求
-$encrypt = $_GET['encrypt'];
+//取得以前更新成功的老IP地址，如果一致，不再更新
+$oldClientIP = $_SESSION['clientIP'];
 
-if(strcmp($encrypt, 'S9W4KdqOYqnpYWd9e4QaRPLP4paow4') != 0)
+if(strcmp($oldClientIP, $clientIP) == 0)
 {
-    echo 'Error Encrypt Code!';
+    echo "Same IP Address";
     return;
 }
 
+
+
 /**
  * 获取解析记录列表
- * 
+ *
  * @param integer $domainId 域名ID
  * @param integer $hostId 主机记录 id(传 0 查全部)
  * @param integer $offset 记录开始的偏移,第一条记录为 0
@@ -58,11 +70,11 @@ if(strcmp($encrypt, 'S9W4KdqOYqnpYWd9e4QaRPLP4paow4') != 0)
  * @return string
  */
 
-// echo $api->record->recordList(48771, 502710, 0, 30);
+// echo $api->record->recordList(42771, 5234234, 0, 30);
 
 /**
  * 更新解析记录
- * 
+ *
  * @param integer $domainId 域名 id
  * @param string $host 主机记录名,传空值,则主机记录名作”@”处理.
  * @param string $value 记录值, 如IP:8.8.8.8,CNAME:cname.cloudxns.net., MX: mail.cloudxns.net.
@@ -76,11 +88,21 @@ if(strcmp($encrypt, 'S9W4KdqOYqnpYWd9e4QaRPLP4paow4') != 0)
  */
 
 $host = 'dev';
-echo $api->record->recordUpdate(48771, $host, $clientIP, 'A', null, 600, 1, '', 726711);
+$response = $api->record->recordUpdate(42771, $host, $clientIP, 'A', null, 600, 1, '', 2346711);
+$object = json_decode($response);
 
-echo '<br>';
+$host2 = 'jira';
+$response2 = $api->record->recordUpdate(43771, $host2, $clientIP, 'A', null, 600, 1, '', 23446705);
+$object2 = json_decode($response2);
 
-$host = 'jira';
-echo $api->record->recordUpdate(48771, $host, $clientIP, 'A', null, 600, 1, '', 726705);
+if($object->code == 1 && $object2->code == 1)
+{
+    //保存成功的IP地址，下次根据IP地址是否更新来判断
+    $_SESSION['clientIP'] = $clientIP;
+}
+
+echo $object->message;
+echo ' <br> ';
+echo $object2->message;
 
 ?>

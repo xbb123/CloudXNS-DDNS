@@ -18,5 +18,5 @@ require_once 'Config.inc.php';
  * @param integer $rowNum 要获取的记录的数量,最大可取 2000条
  * @return string
  */
-echo $api->host->hostList(48771, 0, 30);
+echo $api->host->hostList(12345, 0, 30);
 
