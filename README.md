@@ -9,4 +9,4 @@
 3. 增加了获取IP地址的能力
 
 本代码部署在服务器A上
-服务器B定时调用RecordDemo.php来，这样服务器B的IP地址就被更新到DNS纪录里了
+服务器B定时调用RecordDemo.php，这样服务器B的IP地址就被更新到DNS纪录里了
