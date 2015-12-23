@@ -14,4 +14,4 @@
 
 下面是Cron配置
 
-*/1 * * * * curl -b cookies.txt -c cookies.txt http://AAAAA.com/cloudxns/demo/RecordDemo.php
+*/1 * * * * curl -b cookies.txt -c cookies.txt http://AAAAA.com/cloudxns/demo/RecordDemo.php?encrypt=YTZD923oMefdqOYq23vskdfPUadLP4paow4
