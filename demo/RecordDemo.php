@@ -42,10 +42,9 @@ $clientIP = getIPaddress();
 //这里稍微做了一下加密，防止别人随便请求
 $encrypt = $_GET['encrypt'];
 
-if(strcmp($encrypt, 'ZYXQ3B5x1yL3siQJYM9lnCCqW8sEEoR') != 0)
+if($encrypt == null || strcmp('ZYXQ3B5x1yL3siQJYM9lnCCqW8sEEoR', $encrypt) != 0)
 {
-    echo 'Error Encrypt Code!'
-    return;
+     return;
 }
 
 /**
