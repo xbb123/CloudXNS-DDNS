@@ -39,6 +39,15 @@ function getIPAddress()
 $clientIP = getIPaddress();
 
 
+//这里稍微做了一下加密，防止别人随便请求
+$encrypt = $_GET['encrypt'];
+
+if(strcmp($encrypt, 'ZYXQ3B5x1yL3siQJYM9lnCCqW8sEEoR') != 0)
+{
+    echo 'Error Encrypt Code!'
+    return;
+}
+
 /**
  * 获取解析记录列表
  * 
@@ -67,11 +76,11 @@ $clientIP = getIPaddress();
  */
 
 $host = 'dev';
-echo $api->record->recordUpdate(48771, host, clientIP, 'A', null, 600, 1, '', 726711);
+echo $api->record->recordUpdate(48771, $host, $clientIP, 'A', null, 600, 1, '', 726711);
 
 echo '<br>';
 
 $host = 'jira';
-echo $api->record->recordUpdate(48771, host, clientIP, 'A', null, 600, 1, '', 726705);
+echo $api->record->recordUpdate(48771, $host, $clientIP, 'A', null, 600, 1, '', 726705);
 
 ?>
